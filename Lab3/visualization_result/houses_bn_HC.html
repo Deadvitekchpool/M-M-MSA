@@ -1,0 +1,129 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 800px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#3d46eb", "font": {"size": 36}, "id": "Son", "label": "Son", "level": 2, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Son"}, {"color": "#3d46eb", "font": {"size": 36}, "id": "Education", "label": "Education", "level": 3, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Education"}, {"color": "#3d46eb", "font": {"size": 36}, "id": "Reason for absence", "label": "Reason for absence", "level": 1, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Reason for absence"}, {"color": "#eb3d3d", "font": {"size": 36}, "id": "Service time", "label": "Service time", "level": 4, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Service time"}, {"color": "#eb3d3d", "font": {"size": 36}, "id": "Age", "label": "Age", "level": 6, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Age"}, {"color": "#eb3d3d", "font": {"size": 36}, "id": "Absenteeism time in hours", "label": "Absenteeism time in hours", "level": 2, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Absenteeism time in hours"}, {"color": "#eb3d3d", "font": {"size": 36}, "id": "Body mass index", "label": "Body mass index", "level": 7, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Body mass index"}, {"color": "#eb3d3d", "font": {"size": 36}, "id": "Distance from Residence to Work", "label": "Distance from Residence to Work", "level": 8, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Distance from Residence to Work"}, {"color": "#eb3d3d", "font": {"size": 36}, "id": "Transportation expense", "label": "Transportation expense", "level": 5, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Transportation expense"}, {"color": "#3d46eb", "font": {"size": 36}, "id": "Disciplinary failure", "label": "Disciplinary failure", "level": 0, "shape": "dot", "size": 45, "title": "\u0423\u0437\u0435\u043b \u0431\u0430\u0439\u0435\u0441\u043e\u0432\u0441\u043a\u043e\u0439 \u0441\u0435\u0442\u0438 Disciplinary failure"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "Son", "to": "Service time"}, {"arrows": "to", "from": "Son", "to": "Age"}, {"arrows": "to", "from": "Son", "to": "Distance from Residence to Work"}, {"arrows": "to", "from": "Son", "to": "Transportation expense"}, {"arrows": "to", "from": "Son", "to": "Body mass index"}, {"arrows": "to", "from": "Son", "to": "Education"}, {"arrows": "to", "from": "Education", "to": "Service time"}, {"arrows": "to", "from": "Education", "to": "Transportation expense"}, {"arrows": "to", "from": "Reason for absence", "to": "Absenteeism time in hours"}, {"arrows": "to", "from": "Reason for absence", "to": "Son"}, {"arrows": "to", "from": "Service time", "to": "Distance from Residence to Work"}, {"arrows": "to", "from": "Service time", "to": "Age"}, {"arrows": "to", "from": "Service time", "to": "Transportation expense"}, {"arrows": "to", "from": "Service time", "to": "Body mass index"}, {"arrows": "to", "from": "Age", "to": "Body mass index"}, {"arrows": "to", "from": "Body mass index", "to": "Distance from Residence to Work"}, {"arrows": "to", "from": "Transportation expense", "to": "Distance from Residence to Work"}, {"arrows": "to", "from": "Transportation expense", "to": "Age"}, {"arrows": "to", "from": "Transportation expense", "to": "Body mass index"}, {"arrows": "to", "from": "Disciplinary failure", "to": "Reason for absence"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "layout": {
+        "hierarchical": {
+            "blockShifting": true,
+            "edgeMinimization": true,
+            "enabled": true,
+            "levelSeparation": 150,
+            "parentCentralization": true,
+            "sortMethod": "hubsize",
+            "treeSpacing": 200
+        },
+        "improvedLayout": true,
+        "randomSeed": 0
+    },
+    "physics": {
+        "enabled": true,
+        "hierarchicalRepulsion": {
+            "centralGravity": 0.5,
+            "damping": 0.09,
+            "nodeDistance": 300,
+            "springConstant": 0.01,
+            "springLength": 100
+        },
+        "solver": "hierarchicalRepulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
